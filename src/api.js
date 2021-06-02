@@ -15,63 +15,151 @@ class Coords{
         return "(" + this.x + "," + this.y + ")"
     }
 }
-
 app.post('/instruction', function(req,res) {
-  var x = y = uniqueLocation = 0;
-  var photoCoords = new Array();
+  var xCurrent = yCurrent = uniqueLocation = 0;
+  var photoLocations = new Array();
   var instructions = req.body.instruction.split("");
   var step = 0;
 
   while(step < instructions.length){
-      console.log(instructions[step]);
       switch(instructions[step]){
           case 'x':
-            console.log("taking photo");
             var found = false;
-            for(var i = 0; i < photoCoords.length; i++){
-                if(photoCoords[i].x == x && photoCoords[i].y == y){
-                    console.log("found same location");
+            for(var i = 0; i < photoLocations.length; i++){
+                if(photoLocations[i].x == xCurrent && photoLocations[i].y == yCurrent){
                     found = true;
                     break;
                 }
             }
             if(!found){
-                console.log("adding location: " + x + y)
-                photoCoords.push(new Coords(x, y));
+                    found = true;
+                    photoLocations.push(new Coords(xCurrent, yCurrent));
                 uniqueLocation++;
             }
             step++;
             break;
 
           case 'w':
-            y++;
+            yCurrent++;
             step++;
             break;
           
           case 's':
-            y--;
+            yCurrent--;
             step++;
             break;
 
           case 'a':
-            x--;
+            xCurrent--;
             step++;
             break;
           
           case 'd':
-            x++;
+            xCurrent++;
             step++
             break;
         
           default:
-            throw "Invalid Instruction";
+            throw "Invalid Instructions";
       }
   }
-  console.log("Unique locations photographed: " +  uniqueLocation);
   res.json({
     unique: uniqueLocation
   });
 });
+
+app.post('/pt2instruction', function(req,res) {
+  var r1xCurrent = r1yCurrent = r2xCurrent = r2yCurrent = uniqueLocation = 0;
+  var photoLocations = new Array();
+  var instructions = req.body.instruction.split("");
+  var step = 0;
+  var robotOneTurn = true; 
+  for(var step = 0; step < instructions.length; step++){
+    console.log(step);
+      if(robotOneTurn){
+        console.log("robot 1 turn");
+        switch(instructions[step]){
+            case 'x':
+              var found = false;
+              for(var i = 0; i < photoLocations.length; i++){
+                  if(photoLocations[i].x == r1xCurrent && photoLocations[i].y == r1yCurrent){
+                      found = true;
+                      break;
+                  }
+              }
+              if(!found){
+                      found = true;
+                      photoLocations.push(new Coords(r1xCurrent, r1yCurrent));
+                  uniqueLocation++;
+              }
+              break;
+
+            case 'w':
+              r1yCurrent++;
+              break;
+            
+            case 's':
+              r1yCurrent--;
+              break;
+
+            case 'a':
+              r1xCurrent--;
+              break;
+            
+            case 'd':
+              r1xCurrent++;
+              break;
+          
+            default:
+              throw "Invalid Instructions";
+        }
+        robotOneTurn = false; 
+      } else{
+        //robot 2
+        console.log("robot 2 turn");
+        switch(instructions[step]){
+          case 'x':
+            var found = false;
+            for(var i = 0; i < photoLocations.length; i++){
+                if(photoLocations[i].x == r2xCurrent && photoLocations[i].y == r2yCurrent){
+                    found = true;
+                    break;
+                }
+            }
+            if(!found){
+                    found = true;
+                    photoLocations.push(new Coords(r2xCurrent, r2yCurrent));
+                uniqueLocation++;
+            }
+            break;
+
+          case 'w':
+            r2yCurrent++;
+            break;
+          
+          case 's':
+            r2yCurrent--;
+            break;
+
+          case 'a':
+            r2xCurrent--;
+            break;
+          
+          case 'd':
+            r2xCurrent++;
+            break;
+        
+          default:
+            throw "Invalid Instructions";
+      }
+      robotOneTurn = true; 
+      }
+  }
+  res.json({
+    unique: uniqueLocation
+  });
+});
+
 app.get('/', (req, res) => {
     res.json({foo: 'req'});
 });
