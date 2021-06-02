@@ -17,7 +17,6 @@ class PostInstruction extends Component {
 
     onSubmit = e => {
         e.preventDefault()
-        console.log(this.state)
         axios.post('http://localhost:4001/instruction', this.state)
         .then(response =>{
             console.log(response)
@@ -29,7 +28,6 @@ class PostInstruction extends Component {
     }
     onSubmitPart2 = e => {
         e.preventDefault()
-        console.log(this.state)
         axios.post('http://localhost:4001/pt2instruction', this.state)
         .then(response =>{
             console.log(response)
@@ -42,12 +40,12 @@ class PostInstruction extends Component {
     render(){
         const { instruction, instructionpt2 } = this.state
         return(
-            <body>
+            <section>
                 <h1>Robot Challenge</h1>
             <div>
                 <form onSubmit={this.onSubmit}>
-                    <div>Send Instructions to 1 robot:</div>
-                    <input type="text" name="instruction" value={instruction} onChange={this.onChange}></input>
+                    <h3>Send Instructions to 1 robot:</h3>
+                    <input type="text" name="instruction" value={instruction} onChange={this.onChange} pattern="[wasdx]+"></input>
                     <button type="submit">Send</button>
                 </form>
             </div>
@@ -55,14 +53,14 @@ class PostInstruction extends Component {
             <br></br>
             <div>
                 <form onSubmit={this.onSubmitPart2}>
-                    <div>Send Instructions to 2 robots:</div>
-                    <input type="text" name="instructionpt2" value={instructionpt2} onChange={this.onChange}></input>
+                    <h3>Send Instructions to 2 robots:</h3>
+                    <input type="text" name="instructionpt2" value={instructionpt2} onChange={this.onChange} pattern="[wasdx]+"></input>
                     <button type="submit">Send</button>
                 </form>
             </div>
             <div id="response2">
             </div>
-            </body>
+            </section>
         )
     }
 }

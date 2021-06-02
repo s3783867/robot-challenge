@@ -59,7 +59,8 @@ app.post('/instruction', function(req,res) {
             break;
         
           default:
-            throw "Invalid Instructions";
+            res.status(400);
+            res.send();
       }
   }
   res.json({
@@ -70,12 +71,11 @@ app.post('/instruction', function(req,res) {
 app.post('/pt2instruction', function(req,res) {
   var r1xCurrent = r1yCurrent = r2xCurrent = r2yCurrent = uniqueLocation = step = 0;
   var photoLocations = new Array();
-  var instructions = req.body.instruction.split("");
+  var instructions = req.body.instructionpt2.split("");
   var robotOneTurn = true; 
   for(var step = 0; step < instructions.length; step++){
       //robot one turn
       if(robotOneTurn){
-        console.log(step+ "Robot 1 Turn: " + r1xCurrent + " " + r1yCurrent);
         switch(instructions[step]){
             case 'x':
               var found = false;
@@ -107,12 +107,12 @@ app.post('/pt2instruction', function(req,res) {
               break;
           
             default:
-              throw "Invalid Instructions";
+              res.status(400);
+              res.send();
         }
         robotOneTurn = false; 
       } else{
         //robot 2 turn
-        console.log(step + "Robot 2 Turn: " + r2xCurrent + " " + r2yCurrent);
         switch(instructions[step]){
           case 'x':
             var found = false;
@@ -145,7 +145,8 @@ app.post('/pt2instruction', function(req,res) {
             break;
         
           default:
-            throw "Invalid Instructions";
+            res.status(400);
+            res.send();
       }
       robotOneTurn = true; 
       }
@@ -154,6 +155,8 @@ app.post('/pt2instruction', function(req,res) {
     unique: uniqueLocation
   });
 });
-
+app.get('/', (req, res) => {
+  res.json({foo: 'req'});
+});
 app.listen(4001, () => console.log(`Api started at http://localhost:4001`));
 
