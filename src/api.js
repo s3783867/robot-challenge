@@ -15,11 +15,11 @@ class Coords{
         return "(" + this.x + "," + this.y + ")"
     }
 }
+//part 1 api
 app.post('/instruction', function(req,res) {
-  var xCurrent = yCurrent = uniqueLocation = 0;
+  var xCurrent = yCurrent = uniqueLocation = step = 0;
   var photoLocations = new Array();
   var instructions = req.body.instruction.split("");
-  var step = 0;
 
   while(step < instructions.length){
       switch(instructions[step]){
@@ -32,8 +32,7 @@ app.post('/instruction', function(req,res) {
                 }
             }
             if(!found){
-                    found = true;
-                    photoLocations.push(new Coords(xCurrent, yCurrent));
+                photoLocations.push(new Coords(xCurrent, yCurrent));
                 uniqueLocation++;
             }
             step++;
@@ -67,29 +66,26 @@ app.post('/instruction', function(req,res) {
     unique: uniqueLocation
   });
 });
-
+//part 2 api
 app.post('/pt2instruction', function(req,res) {
-  var r1xCurrent = r1yCurrent = r2xCurrent = r2yCurrent = uniqueLocation = 0;
+  var r1xCurrent = r1yCurrent = r2xCurrent = r2yCurrent = uniqueLocation = step = 0;
   var photoLocations = new Array();
   var instructions = req.body.instruction.split("");
-  var step = 0;
   var robotOneTurn = true; 
   for(var step = 0; step < instructions.length; step++){
-    console.log(step);
+      //robot one turn
       if(robotOneTurn){
-        console.log("robot 1 turn");
+        console.log(step+ "Robot 1 Turn: " + r1xCurrent + " " + r1yCurrent);
         switch(instructions[step]){
             case 'x':
               var found = false;
               for(var i = 0; i < photoLocations.length; i++){
                   if(photoLocations[i].x == r1xCurrent && photoLocations[i].y == r1yCurrent){
                       found = true;
-                      break;
                   }
               }
               if(!found){
-                      found = true;
-                      photoLocations.push(new Coords(r1xCurrent, r1yCurrent));
+                  photoLocations.push(new Coords(r1xCurrent, r1yCurrent));
                   uniqueLocation++;
               }
               break;
@@ -115,8 +111,8 @@ app.post('/pt2instruction', function(req,res) {
         }
         robotOneTurn = false; 
       } else{
-        //robot 2
-        console.log("robot 2 turn");
+        //robot 2 turn
+        console.log(step + "Robot 2 Turn: " + r2xCurrent + " " + r2yCurrent);
         switch(instructions[step]){
           case 'x':
             var found = false;
@@ -127,8 +123,7 @@ app.post('/pt2instruction', function(req,res) {
                 }
             }
             if(!found){
-                    found = true;
-                    photoLocations.push(new Coords(r2xCurrent, r2yCurrent));
+                photoLocations.push(new Coords(r2xCurrent, r2yCurrent));
                 uniqueLocation++;
             }
             break;
@@ -158,10 +153,6 @@ app.post('/pt2instruction', function(req,res) {
   res.json({
     unique: uniqueLocation
   });
-});
-
-app.get('/', (req, res) => {
-    res.json({foo: 'req'});
 });
 
 app.listen(4001, () => console.log(`Api started at http://localhost:4001`));

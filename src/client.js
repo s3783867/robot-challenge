@@ -10,7 +10,6 @@ function App() {
     }
     return (
     <PostInstruction/>
-    //<pre>{JSON.stringify(data, null, 4)}</pre>
     )
 }
 ReactDOM.render(<App />, document.getElementById('app'));
