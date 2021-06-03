@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-
+import './post.css'
 class PostInstruction extends Component {
     constructor(){
         super()
@@ -21,9 +21,12 @@ class PostInstruction extends Component {
         .then(response =>{
             console.log(response)
             document.getElementById("response").innerHTML = response.data.unique + " unique locations photographed";
+            document.getElementById("response").style.color = "cornflowerblue";
         })
         .catch(error =>{
             console.log(error)
+            document.getElementById("response").innerHTML = "Instructions Invalid";
+            document.getElementById("response").style.color = "red";
         })
     }
     onSubmitPart2 = e => {
@@ -32,9 +35,12 @@ class PostInstruction extends Component {
         .then(response =>{
             console.log(response)
             document.getElementById("response2").innerHTML = response.data.unique + " unique locations photographed";
+            document.getElementById("response2").style.color = "cornflowerblue";
         })
         .catch(error =>{
             console.log(error)
+            document.getElementById("response2").innerHTML = "Instructions Invalid";
+            document.getElementById("response2").style.color = "red";
         })
     }
     render(){
@@ -44,8 +50,9 @@ class PostInstruction extends Component {
                 <h1>Robot Challenge</h1>
             <div>
                 <form onSubmit={this.onSubmit}>
-                    <h3>Send Instructions to 1 robot:</h3>
-                    <input type="text" name="instruction" value={instruction} onChange={this.onChange} pattern="[wasdx]+"></input>
+                    <h2>Send Instructions to 1 robot:</h2>
+                    <textarea type="text" rows="10" cols="50" name="instruction" placeholder="Instructions: xwasd" value={instruction} onChange={this.onChange}></textarea>
+                    <br></br>
                     <button type="submit">Send</button>
                 </form>
             </div>
@@ -53,8 +60,9 @@ class PostInstruction extends Component {
             <br></br>
             <div>
                 <form onSubmit={this.onSubmitPart2}>
-                    <h3>Send Instructions to 2 robots:</h3>
-                    <input type="text" name="instructionpt2" value={instructionpt2} onChange={this.onChange} pattern="[wasdx]+"></input>
+                    <h2>Send Instructions to 2 robots:</h2>
+                    <textarea type="text" rows="10" cols="50" name="instructionpt2" placeholder="Instructions: xwasd" value={instructionpt2} onChange={this.onChange}></textarea>
+                    <br></br>
                     <button type="submit">Send</button>
                 </form>
             </div>

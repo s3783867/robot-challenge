@@ -11,9 +11,6 @@ class Coords{
         this.x = x;
         this.y = y;
     }
-    toString(){
-        return "(" + this.x + "," + this.y + ")"
-    }
 }
 //part 1 api
 app.post('/instruction', function(req,res) {
@@ -61,6 +58,7 @@ app.post('/instruction', function(req,res) {
           default:
             res.status(400);
             res.send();
+            return;
       }
   }
   res.json({
@@ -109,6 +107,7 @@ app.post('/pt2instruction', function(req,res) {
             default:
               res.status(400);
               res.send();
+              return;
         }
         robotOneTurn = false; 
       } else{
@@ -147,6 +146,7 @@ app.post('/pt2instruction', function(req,res) {
           default:
             res.status(400);
             res.send();
+            return;
       }
       robotOneTurn = true; 
       }
